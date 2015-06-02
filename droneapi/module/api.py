@@ -210,6 +210,18 @@ class MPVehicle(Vehicle):
         return self.__module.airspeed
 
     @property
+    def heading(self):
+        return self.__module.heading
+
+    @property
+    def throttle(self):
+        return self.__module.throttle
+
+    @property
+    def climb_rate(self):
+        return self.__module.climb_rate
+
+    @property
     def mount_status(self):
         return [ self.__module.mount_pitch, self.__module.mount_yaw, self.__module.mount_roll ]
 
@@ -357,6 +369,9 @@ class APIModule(mp_module.MPModule):
 
         self.airspeed = None
         self.groundspeed = None
+        self.heading = None
+        self.throttle = None
+        self.climb_rate = None
 
         self.pitch = None
         self.yaw = None
@@ -435,7 +450,9 @@ class APIModule(mp_module.MPModule):
             self.alt = m.alt
             self.airspeed = m.airspeed
             self.groundspeed = m.groundspeed
-            self.__on_change('location', 'airspeed', 'groundspeed')
+            self.throttle = m.throttle
+            self.climb_rate = m.climb
+            self.__on_change('hud')
         elif typ == "ATTITUDE":
             self.pitch = m.pitch
             self.yaw = m.yaw
